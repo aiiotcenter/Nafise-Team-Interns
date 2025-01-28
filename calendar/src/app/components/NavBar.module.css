@@ -1,0 +1,103 @@
+/* NavBar.module.css */
+
+/* Container for the entire NavBar */
+.NavBar {
+    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0; /* Light border for separation */
+}
+
+/* Arrows container */
+.Arrows {
+    display: flex;
+    
+    align-items: center;
+}
+
+/* Arrow buttons */
+.Arrows button {
+    color:#333333 ;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%; /* Circular buttons */
+    transition: background-color 0.3s ease;
+}
+
+.Arrows button:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+/* SVG icons inside buttons */
+.Arrows button svg {
+    width: 24px;
+    height: 24px;
+    color: #333333; /* Dark gray color for icons */
+}
+
+/* Dropdown containers */
+.month-dropdown,
+.year-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between label and select */
+}
+.month-dropdown{margin: 0;}
+/* Labels for dropdowns */
+.month-dropdown label,
+.year-dropdown label {
+    font-size: 16px;
+    color: #333333; /* Dark gray text */
+    font-weight: 500;
+}
+
+/* Select dropdowns */
+.month-dropdown select,
+.year-dropdown select {
+    background-color: none;
+    border: 1px solid #ccc; 
+    padding: 0.5rem;
+    border-radius: 5px; /* Rounded corners */
+    color: #333333; /* Dark gray text */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+select:focus{
+    outline: none;
+    border-color: #7c3aed;
+}
+
+.month-dropdown select:hover,
+.year-dropdown select:hover {
+    border-color: #b0b0b0; /* Darker border on hover */
+}
+
+.month-dropdown select:focus,
+.year-dropdown select:focus {
+    outline: none;
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 0 2px rgba(35, 36, 38, 0.25); /* Focus ring */
+}
+.size-6{
+    width: 24px;
+    height: 24px;
+}
+.right-side-arrow button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+.left-side-arrow{
+    left: 0;
+}
+.year-container{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

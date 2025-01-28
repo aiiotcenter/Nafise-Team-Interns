@@ -1,0 +1,158 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-top: 1px solid #ccc;
+    min-height: 100vh;
+    color: black;
+}
+
+.footer h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px; 
+}
+
+.footer .start_time_picker_footer, .footer .ending_time_footer {
+    width: 100%; 
+    text-align: left;
+    margin-bottom: -50px; 
+}
+
+.footer input[type="text"],
+.footer input[type="time"] {
+    border: 1px solid #ccc;
+    font-size: 0.75rem;
+    outline: none !important;
+    box-shadow: none;
+    border: none;
+}
+
+.start_time_picker_footer, .ending_time_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.starting_day_footer, .ending_day_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+    background: none;
+    border: none;
+    box-shadow: none;
+    text-align: left;
+}
+
+.starting_day_footer input, .ending_day_footer input {
+    background-color: none;
+    border: none !important;
+    outline: none !important;
+    color: inherit;
+    text-align: left;
+    font-size: 2rem !important;
+    color: plum;
+    display: flexbox;
+    width: 3.1rem;
+    max-width: 100%;
+}
+
+.starting_monthyear_footer input, .ending_monthyear_footer input {
+    display: flexbox;
+    flex: 1;
+    background-color: none;
+    border: none !important;
+    outline: none !important;
+    color: inherit;
+    text-align: left;
+    width: 2rem;
+    gap: 0;
+}
+
+
+
+.current_day_footer {
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.starting_monthyear_footer, .ending_monthyear_footer {
+    justify-content: flex-start;
+    align-items: flex-start; /* Or adjust as needed */
+    gap: 20px; /* Maintain minimal spacing */
+}
+
+.footer .horizontal_container {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    width: 100%; /* Ensure the container takes full width */
+    justify-content: flex-start; /* Align items to the left */
+}
+
+.starting_monthyear_footer,
+.current_day_footer,
+.start_time_picker_footer,
+.start_time_picker,
+.ending_time_footer {
+    flex: 1; /* Distribute space evenly (optional) */
+    display: flex;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+.Clock_icon svg,
+.Clock2_icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: auto;
+}
+
+.ending_time_footer {
+    height: auto; 
+    margin: 0; 
+    padding: 0; 
+    margin-bottom: 0; /* Remove the large margin */
+}
+
+.date_container {
+    flex: 2;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+    gap: 2px; 
+    padding: 0;
+}
+
+.month_year {
+    display: flex;
+    flex-direction: row;
+    gap: 2px; /* Space between the month and year fields */
+}
+
+.day_name {
+    font-size: 0.9rem;
+    color: #6b7280; 
+    text-align: left; /* Align text to the left */
+}
+
+.month_year input {
+    width: 2rem; /* Ensure input fields don't stretch */
+    text-align: left; /* Align text to the left */
+    box-sizing: border-box; /* Prevent overflow */
+    padding: 2px;
+}
+
+.horizontal_container {
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+}
+
+.start_time_picker,
+.ending_time_picker {
+    flex: 1;
+    text-align: right; /* Align the time picker to the right */
+}

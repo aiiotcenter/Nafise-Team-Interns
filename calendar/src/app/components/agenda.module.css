@@ -1,0 +1,55 @@
+
+.selectContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adds spacing between the select buttons */
+    margin-bottom: 20px;
+  }
+  
+  .select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #000000;
+    transition: all 0.3s ease;
+  }
+  
+  .select:focus {
+    outline: none;
+    border-color: #007bff; /* Change the border color on focus */
+  }
+  
+  .select:hover {
+    background-color: #333; /* Light blue background on hover */
+    cursor: pointer;
+  }
+
+  .Weekdays_header{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);    
+    padding-bottom: 8px;  
+    gap: 10px;
+  }
+  .days{
+    display: flex;
+    flex-direction: column;
+  }
+  .weekRow{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    min-height: 60px; /* Adjustable */
+    text-align: center;
+  }
+  .weekdayCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    padding: 8px 0;
+    width: 100%; 
+    
+  }
