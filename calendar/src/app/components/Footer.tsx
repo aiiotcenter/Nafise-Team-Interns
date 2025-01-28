@@ -238,6 +238,7 @@ const Footer=()=>{
         }
     
         return (
+            <div className={styles.footer_container}>
             <div className={styles.footer}>
                 <div className={styles.start_time_picker_footer}>
                     <h2>FROM</h2>
@@ -349,6 +350,7 @@ const Footer=()=>{
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         );
 }

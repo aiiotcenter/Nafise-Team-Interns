@@ -4,7 +4,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     border-top: 1px solid #ccc;
-    min-height: 100vh;
     color: black;
 }
 
@@ -13,12 +12,14 @@
     font-weight: bold;
     color: #555;
     margin-bottom: 10px; 
+    opacity: 40%;
 }
 
 .footer .start_time_picker_footer, .footer .ending_time_footer {
     width: 100%; 
     text-align: left;
-    margin-bottom: -50px; 
+    margin-top: 15px; 
+    height: fit-content;
 }
 
 .footer input[type="text"],
@@ -33,7 +34,6 @@
 .start_time_picker_footer, .ending_time_footer {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 .starting_day_footer, .ending_day_footer {
