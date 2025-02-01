@@ -93,8 +93,6 @@
 
 .starting_monthyear_footer,
 .current_day_footer,
-.start_time_picker_footer,
-.start_time_picker,
 .ending_time_footer {
     flex: 1; /* Distribute space evenly (optional) */
     display: flex;

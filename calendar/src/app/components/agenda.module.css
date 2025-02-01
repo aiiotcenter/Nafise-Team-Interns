@@ -53,3 +53,6 @@
     width: 100%; 
     
   }
+  .bg-blue-100 {
+    background-color: #cfe8ff; /* Light blue for today */
+  }
