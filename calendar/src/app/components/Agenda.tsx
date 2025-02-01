@@ -1,6 +1,6 @@
 "use client";
 import clsx from "clsx";
-import { eachDayOfInterval, endOfMonth, format, getDay, isToday, startOfMonth } from "date-fns";
+import { eachDayOfInterval, endOfMonth, format, getDay, isToday, startOfMonth,isWithinInterval } from "date-fns";
 import styles from './agenda.module.css';
 import React, { useEffect, useState } from "react";
 
@@ -24,6 +24,12 @@ const Agenda = ({
     selectedYear}:AgendaProps) => {
     // Base date for calculations
     const currentDate = new Date();
+
+    const isInRange = (date: Date) => {
+      if (selectedDates.length < 2) return false;
+      const [start, end] = selectedDates;
+      return isWithinInterval(date, { start, end });
+  };
     
     // Constants
     const Weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -110,23 +116,25 @@ const Agenda = ({
                 
                 // Render actual days
                 const day = cell as Date;
-                const isSelected = selectedDates.some((d)=>d.toDateString()===day.toDateString())
+                const isSelected = selectedDates.some((d)=>d.toDateString()===day.toDateString());
+                const isRange=isInRange(day);
                 return (
                   <div
                     key={day.toISOString()}
                     className={clsx(
-                      "aspect-square border rounded-md p-2",
-                      "flex items-center justify-center transition-colors",
-                      {
-                        "bg-blue-100 border-blue-500 font-bold": isToday(day),
-                        "hover:bg-gray-50": !isToday(day)
-                      }
+                      styles.calendarCell, // Add this base class to your CSS
+  {
+    [styles.selectedDate]: isSelected,
+    [styles.inRangeDate]: isRange,
+    [styles.bgBlue100]: isToday(day) && !isSelected
+  }
                     )}
                     onClick={()=>handleDateClick(day)}
                   >
                     <span className={clsx({
-                      "text-blue-600": isToday(day),
-                      "text-gray-800": !isToday(day)
+                      "text-purple-700 font-bold": isSelected || isRange,
+                      "text-blue-600": !isToday(day) && !isSelected,
+                      "text-gray-800": !isToday(day) && !isRange && !isSelected
                     })}>
                       {format(day, "d")}
                     </span>

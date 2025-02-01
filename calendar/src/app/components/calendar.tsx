@@ -79,6 +79,9 @@ const [endDay, setEndDay] = useState(current_day());
   const [startingTime,setStartingTime]=useState<string>('');
   const [endingTime,setEndingTime]=useState<string>('');
   const currentDate=new Date();//"dd-MM-yyyy"
+  const [formStep,setFormStep]=useState<"dateSelection" | "finalForm">("dateSelection");
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+
   
   
   //exiting the form function
@@ -142,6 +145,7 @@ const [endDay, setEndDay] = useState(current_day());
         if (dates.length===1){
         const primaryDate=dates[0];
         setStartingDate(primaryDate);
+
     
         setStartMonth(format(primaryDate,'MM'));
         setStartYear(format(primaryDate,'yyyy'))
@@ -157,6 +161,14 @@ const [endDay, setEndDay] = useState(current_day());
           setEndMonth(format(end, 'MM'));
           setEndYear(format(end, 'yyyy'));
         setEndDay(format(end, 'dd'));
+        
+        }
+
+        const handleForm =(dates:Date[])=>{
+          setSelectedDates(dates);
+          if(dates.length==2){
+            setFormStep("finalForm")
+          }
         }
     
 
@@ -185,16 +197,17 @@ const { register, handleSubmit, reset, setValue } = methods;
   
 useEffect(()=>{
   if (startDay && startMonth && startYear){
-    const formatedDate=`${startDay}-${startMonth}-${startYear}`;
+    const formatedDate=`${startYear}-${startMonth}-${startDay}`;
     setValue("startdate",formatedDate);
   }
 },[startDay,startMonth,startYear,setValue])
 useEffect(()=>{
   if (endYear && endMonth && endDay){
-    const formatedendDate=`${endDay}-${endMonth}-${endYear}`;
+    const formatedendDate=`${endYear}-${endMonth}-${endDay}`;
     setValue("enddate",formatedendDate);
   }
 },[endDay,endMonth,endYear,setValue])
+
 
 return (
     <div className={`${styles.calendarMain}`}>
@@ -207,6 +220,7 @@ return (
       {isOpen && (
         <div className={styles.calendarOverlay}>
           <div className={styles.calendarPopup} ref={popupRef}>
+                    
             <div><h2 className={styles.calendarTitle}>Fill the Form</h2></div>
             <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -250,6 +264,7 @@ return (
                 
                 />
                 </div>
+                
               
               <div className={styles.calendarEndDate}>
                 <label className={styles.calendarinputdescription}>

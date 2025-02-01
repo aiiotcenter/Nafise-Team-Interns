@@ -53,6 +53,40 @@
     width: 100%; 
     
   }
-  .bg-blue-100 {
-    background-color: #cfe8ff; /* Light blue for today */
+  
+  .selectedDate {
+    background-color: #e9d8fd !important; /* Light purple for selected dates */
+    border-color: #805ad5 !important;
   }
+  
+  .inRangeDate {
+    background-color: #f3ebff !important; /* Lighter purple for range dates */
+    border-color: #b794f4 !important;
+  }
+  
+  /* Existing today's date style */
+  .bg-blue-100 {
+    background-color: #cfe8ff;
+    border-color: #90cdf4;
+  }
+  
+  /* Update the weekday cell styling */
+  .weekdayCell {
+    /* Keep existing styles */
+    color: #4a5568; /* Dark gray text */
+    font-size: 0.875rem; /* 14px */
+  }
+  .weekRow > div:not(.weekdayCell):hover {
+    background-color: #f7fafc !important;
+  }
+  .calendarCell {
+  
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
