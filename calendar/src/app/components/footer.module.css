@@ -21,7 +21,9 @@
     margin-top: 15px; 
     height: fit-content;
 }
-
+.footer input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
 .footer input[type="text"],
 .footer input[type="time"] {
     border: 1px solid #ccc;

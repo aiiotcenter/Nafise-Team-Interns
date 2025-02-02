@@ -1,7 +1,7 @@
 
 "use client"
 import { format , parse} from 'date-fns';
-import { useState , useEffect } from 'react';
+import { useState , useEffect ,useRef} from 'react';
 import {useFormContext} from "react-hook-form";
 import {current_month , current_year } from './NavBar';
 import styles from './footer.module.css'
@@ -83,7 +83,7 @@ const Footer:React.FC<FooterProps>=({startingDate,
         newDate.setDate(parseInt(newDay));
         onStartDayChange(newDay);// i am not sure about this 
       };
-
+    
     /*const handleStartDateChange = (day: string, month: string, year: string) => {
         const newDate = new Date(`${year}-${month}-${day}`);
         if (!isNaN(newDate.getTime())) {
@@ -132,7 +132,17 @@ const Footer:React.FC<FooterProps>=({startingDate,
         dayName = format(defaultDate, "EEEE");
         }
     */
+       
         const { register } = useFormContext();
+            const starttimeInputRef=useRef<HTMLInputElement>(null);
+            const endTimeInputRef=useRef<HTMLInputElement>(null);
+            const handleIconClick=(type:"start"|"end")=>{
+                if(type="start"){
+                    starttimeInputRef.current?.showPicker();
+                }else{
+                endTimeInputRef.current?.showPicker();
+            }}
+        
         return (
             <div className={styles.footer_container}>
             <div className={styles.footer}>
@@ -168,7 +178,7 @@ const Footer:React.FC<FooterProps>=({startingDate,
                         </div>
                         </div>
     
-                        <div className={styles.Clock_icon}>
+                        <div className={styles.Clock_icon } onClick={()=>handleIconClick("start")}>
                             <svg 
                                 xmlns="http://www.w3.org/2000/svg" 
                                 fill="none" 
@@ -176,6 +186,7 @@ const Footer:React.FC<FooterProps>=({startingDate,
                                 strokeWidth={1.5} 
                                 stroke="currentColor" 
                                 className={styles.Clock_icon}
+                                
                             >
                                 <path
                                     strokeLinecap="round" 
@@ -188,6 +199,7 @@ const Footer:React.FC<FooterProps>=({startingDate,
                         <div className={styles.start_time_picker}>
                             <input type='time' 
                                 {...register("starttime", { required: true })}
+                                ref={starttimeInputRef}
                             />
                         </div>
                     </div>
@@ -223,7 +235,7 @@ const Footer:React.FC<FooterProps>=({startingDate,
                             {format(endingDate ?? new Date(),"EEEE")}
                         </div>
                         </div>
-                        <div className={styles.Clock2_icon}>
+                        <div className={styles.Clock2_icon} onClick={()=>handleIconClick("end")}>
                             <svg 
                                 xmlns="http://www.w3.org/2000/svg" 
                                 fill="none" 
@@ -242,10 +254,11 @@ const Footer:React.FC<FooterProps>=({startingDate,
                         <div className={styles.ending_time_picker}>
                             <input type='time' 
                                 {...register("endtime", { required: true })}
+                                ref={endTimeInputRef}
                             />
                         </div>
                     </div>
-                </div>
+                </div>               
             </div>
             </div>
         );
