@@ -1,12 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "../components/Button/Button";
+import { Button } from "./components/Button/Button";
+import Calendar from "./components/Calendar/Calendar"
+import { addDays, subDays } from "date-fns";
+
+
 
 const Home: React.FC = () => {
-  const [message, setMessage] = useState("");
+  const [display, setdisplay] = useState(true);
 
   const handleClick = () => {
-    setMessage("Welcome User");
+    setdisplay(true);
   };
 
 
@@ -15,7 +19,7 @@ const Home: React.FC = () => {
   // your components must be flexable as well , 
   // for example this button can take any color and text and onClick function so we can use it anywhere in our code
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div style={{ textAlign: "center", marginTop: "50px"}}>
       <h1>Home Page</h1>
       <Button
         onClick={handleClick}
@@ -24,7 +28,27 @@ const Home: React.FC = () => {
       >
         Click On Me
       </Button>
-      {message && <p style={{ marginTop: "20px", fontSize: "18px" }}>{message}</p>}
+      {
+      display && 
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: "15px"}}>
+          <Calendar
+              events={[
+                {
+                  start: new Date(2025, 0, 28, 12, 45),
+                  end: new Date(2025, 0, 30, 13, 45),
+                  title: "Team meeting",
+                  color: "blue",
+                },
+                {
+                  start: new Date(2025, 0, 29, 8, 30),
+                  end: new Date(2025, 0, 29, 9, 30),
+                  title: "Yoga session",
+                  color: "green",
+                },  
+              ]}              
+          />
+        </div>
+      }
     </div>
   );
 };
