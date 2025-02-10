@@ -10,11 +10,6 @@ import NavBar from './NavBar';
 import Footer, { current_day } from './Footer';
 import Agenda from './Agenda';
 
-/*
-const [selectedDay,setSelectedDay]=useState(()=>format(new Date(),"dd"));
-const [selectedmMonth,setSelectedMonth]=useState(()=>format(new Date(),"mm"));
-const [selectedYear,setSelectedYear]=useState(()=>format(new Date(),"YYYY"));
-*/
 
 const useFocusHandler=()=>{
   const [isInputFocused , setIsInputFocused]=useState<boolean>(false);
@@ -24,12 +19,12 @@ const useFocusHandler=()=>{
 
   return {isInputFocused,handleFocus,handleBlur}
 }
-//current month
+//current month keep
 export const current_month=()=>{
     const today = new Date();
     return format(today,"MM");
 };
-//current year
+//current year keep
 export const current_year=()=>{
     const today = new Date();
     return format(today,"yyyy")// this  year : 2025
@@ -74,25 +69,26 @@ const [endDay, setEndDay] = useState(current_day());
 const [showCalendar,setShowCalendar]=useState(false);
 const[currentFocus, setCurrentFocus]=useState<"start" | "end" | null>(null);
   const[showForm,setShowForm]=useState(true);
-
+//keep
   const handleDateInputFocus = (type: "start" | "end") => {
   setShowForm(false);
     setShowCalendar(true);
   setCurrentFocus(type);
 };
+//use this function later
 const handleCalendarClose = () => {
   setShowCalendar(false);
   setCurrentFocus(null);
 };
   
-
+//i think i should move this also
   const onSubmit: SubmitHandler<submittedData> = async(data) => {
     const mergeData={
       textfield:data.textfield,
       startingdate:`${data.startdate} ${data.starttime}`,
       endingdate:`${data.enddate} ${data.endtime}`
     }
-    
+//to move in the homepage    
     try{
     const response=await api.addDATE(mergeData);//backend post function
 
@@ -121,16 +117,6 @@ const handleCalendarClose = () => {
     
     };
 
-  
-
-    /*const closeform=()=>{
-      setIsOpen(false)
-    }*/
-  //handle Day changes
-  
-    /*function setIsopen(arg0: boolean): void {
-      throw new Error('Function not implemented.');
-    }*/
       const handleDateSelection=(dates:Date[])=>{
         if (dates.length===1){
         const primaryDate=dates[0];
@@ -153,17 +139,14 @@ const handleCalendarClose = () => {
         setEndDay(format(end, 'dd'));
         
         }
-
+//move this
         const handleForm =(dates:Date[])=>{
           setSelectedDates(dates);
           if(dates.length==2){
             setFormStep("finalForm")
           }
         }
-    
 
-    // Close the form when clicking outside the popup
-    
   };
 //handle Month changes
   const handleMonthChange=(newMonth:string)=>{
@@ -182,11 +165,13 @@ const handleCalendarClose = () => {
       handleDateSelection([newDate])
     }
   }
+  
   const methods = useForm<submittedData>();
 const { register, handleSubmit, reset, setValue,watch } = methods;
   
 useEffect(()=>{
   if (startDay && startMonth && startYear){
+    
     const formatedDate=`${startYear}-${startMonth}-${startDay}`;
     setValue("startdate",formatedDate);
   }
@@ -252,15 +237,8 @@ return (
                   value={
                     startYear && startMonth && startDay ?
                      `${startYear}-${startMonth}-${startDay}`
-                      : ""}
-                  /*onChange={(e)=>{
-                    const [year, month, day] = e.target.value.split("-");
-                    setValue("startdate", `${day}-${month}-${year}`);
-                  }*/ 
-                  
+                      : ""}  
                   onFocus={()=>handleDateInputFocus("start")}
-
-                  
                 />
 
                 
