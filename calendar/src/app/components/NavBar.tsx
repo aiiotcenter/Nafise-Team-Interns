@@ -1,9 +1,4 @@
 
-//stroke-width and stroke-linecap, but in the second SVG, you use strokeWidth and strokeLinecap. React expects camelCase for SVG attributes. Fix the first SVG:
-/*<button onClick={() => Toggle()} aria-label="Previous Month">
-<button onClick={() => Toggle()} aria-label="Next Month">
-*/
-
 "use client"
 import api from '../crud';
 import { useEffect, useState } from "react";
@@ -50,27 +45,7 @@ const NavBar: React.FC<NavBarProps> = ({
     onMonthChange,
     onYearChange,
   }) => {
-    /*const[month,setMonth]=useState(current_month());
-    useEffect(()=>{
-        setMonth(current_month());
-    },[])
-    */
-    /*const handleMonthSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setMonth(e.target.value);
-    };
-    const current_month_name=Months[parseInt(month)-1];
-    //handles years selection
-    const[year,setYear]=useState(current_year());
-    useEffect(()=>{
-        setYear(current_year());
-    },[])
-    const handleYearSelected=(e: React.ChangeEvent<HTMLSelectElement>) => {
-        setYear(e.target.value);
-      };
-      // Generate years from the current year to current year + 10
     
-    
-  */
     const Toggle=(direction:"previous" | "next")=>{
         let newMonth= parseInt(month)+(direction==="next"? 1:-1)
         let newYear=parseInt(year);
@@ -165,7 +140,3 @@ const NavBar: React.FC<NavBarProps> = ({
     );
 }
 export default NavBar ;
-//stroke-width and stroke-linecap, but in the second SVG, you use strokeWidth and strokeLinecap. React expects camelCase for SVG attributes. Fix the first SVG:
-/*<button onClick={() => Toggle()} aria-label="Previous Month">
-<button onClick={() => Toggle()} aria-label="Next Month">
-*/

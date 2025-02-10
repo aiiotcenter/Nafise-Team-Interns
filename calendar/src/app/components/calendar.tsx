@@ -24,34 +24,24 @@ const useFocusHandler=()=>{
 
   return {isInputFocused,handleFocus,handleBlur}
 }
-
+//current month
 export const current_month=()=>{
     const today = new Date();
     return format(today,"MM");
 };
+//current year
 export const current_year=()=>{
     const today = new Date();
     return format(today,"yyyy")// this  year : 2025
 };
-
-/*export const handleMonthChange=(newMonth:string)=> {
-  if (parseInt(newMonth)>=1 && parseInt(newMonth)<=12){
-    setSelectedMonth(newMonth.padStart(2,'0'));
-  }
-}
-export const handleYearChange=(newYear:string)=>{
-  setSelectedYear(newYear);
-}
-*/
-
 
 const Months=["January", "February", "March", "April", "May", "June", "July", 
                    "August", "September", "October", "November", "December"];
 
 const Weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-
 interface submittedData{
+  
   textfield:string;
   starttime:string
   startdate:string;
@@ -81,32 +71,32 @@ const [endDay, setEndDay] = useState(current_day());
   const currentDate=new Date();//"dd-MM-yyyy"
   const [formStep,setFormStep]=useState<"dateSelection" | "finalForm">("dateSelection");
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+const [showCalendar,setShowCalendar]=useState(false);
+const[currentFocus, setCurrentFocus]=useState<"start" | "end" | null>(null);
+  const[showForm,setShowForm]=useState(true);
 
+  const handleDateInputFocus = (type: "start" | "end") => {
+  setShowForm(false);
+    setShowCalendar(true);
+  setCurrentFocus(type);
+};
+const handleCalendarClose = () => {
+  setShowCalendar(false);
+  setCurrentFocus(null);
+};
   
-  
-  //exiting the form function
-  /*useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-        setIsOpen(false); // Close only if clicked outside
-      }
-    };
 
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);*/
-/*function closeform(event: ChangeEvent<HTMLInputElement>): void {
-  throw new Error('Function not implemented.');
-}*/
   const onSubmit: SubmitHandler<submittedData> = async(data) => {
+    const mergeData={
+      textfield:data.textfield,
+      startingdate:`${data.startdate} ${data.starttime}`,
+      endingdate:`${data.enddate} ${data.endtime}`
+    }
+    
     try{
-    const response=await api.addDATE(data);//backend post function
-    console.log("Data submitted successfully:", response.data);
+    const response=await api.addDATE(mergeData);//backend post function
+
+    console.log("Data submitted successfully:", response);
     if(response.status==201){
       Swal.fire({
         position: "center",
@@ -193,7 +183,7 @@ const [endDay, setEndDay] = useState(current_day());
     }
   }
   const methods = useForm<submittedData>();
-const { register, handleSubmit, reset, setValue } = methods;
+const { register, handleSubmit, reset, setValue,watch } = methods;
   
 useEffect(()=>{
   if (startDay && startMonth && startYear){
@@ -207,13 +197,23 @@ useEffect(()=>{
     setValue("enddate",formatedendDate);
   }
 },[endDay,endMonth,endYear,setValue])
+const watchedStartTime=watch("starttime");
+const watchedEndTime=watch("endtime");
+const textValue = watch("textfield");
 
-
+{showCalendar && textValue && <h3>{textValue}</h3>}
+useEffect(()=>{
+  setStartingTime(watchedStartTime);
+},[watchedStartTime]);
+useEffect(()=>{
+  setEndingTime(watchedEndTime);
+},[watchedEndTime])
 return (
     <div className={`${styles.calendarMain}`}>
       <button
         className={`${styles.calendarOpenButton}`}
-        onClick={() => setIsOpen(true)}>
+        onClick={() => setIsOpen(true)}
+        >
         Open form
       </button>
 
@@ -221,10 +221,16 @@ return (
         <div className={styles.calendarOverlay}>
           <div className={styles.calendarPopup} ref={popupRef}>
                     
-            <div><h2 className={styles.calendarTitle}>Fill the Form</h2></div>
+            <div><h2 className={styles.calendarTitle}>{showForm ? "fill the form" : "Select dates & times"}</h2>
+            </div>
             <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+
+            <form  onSubmit={handleSubmit(onSubmit)}>
+            {showCalendar && textValue && <h3>{textValue}</h3>}
+            <div className={showForm ? styles.formVisible : styles.formHidden}>
+             <div className={`${styles.formDisplay} ${isInputFocused ? styles.formDispalyHidden : '' }`}>
              <div className={styles.calendarText}>
+            </div> 
                 <label className={styles.calendarinputdescription}>Lecture name</label>
                 <input
                   type="text"
@@ -234,70 +240,39 @@ return (
                 />
               </div>
               
-
+            
               <div className={styles.calendarStartDate}>
                 <label className={styles.calendarinputdescription}>
-                  Start Time 
+                  Select Time 
                   </label>
                 <input
                   type="date"
                   {...register("startdate", { required: true })}
                   className={styles.calendarInput}
-                  value={startYear && startMonth && startDay ? `${startYear}-${startMonth}-${startDay}` : ""}
-                  onChange={(e)=>{
+                  value={
+                    startYear && startMonth && startDay ?
+                     `${startYear}-${startMonth}-${startDay}`
+                      : ""}
+                  /*onChange={(e)=>{
                     const [year, month, day] = e.target.value.split("-");
                     setValue("startdate", `${day}-${month}-${year}`);
-                  }}
+                  }*/ 
                   
-                  onFocus={handleFocus}
-                
+                  onFocus={()=>handleDateInputFocus("start")}
+
                   
                 />
 
                 
-                <input 
-                type="time"
-                {...register("starttime",{required:true})}
-                className={styles.calendarInput}
-                onFocus={handleFocus}
               
-                
-                />
                 </div>
                 
               
-              <div className={styles.calendarEndDate}>
-                <label className={styles.calendarinputdescription}>
-                  End Time
-                  </label>
-                <input
-                  type="date"
-                  {...register("enddate", { required: true })}
-                  className={styles.calendarInput}
-                  onFocus={handleFocus}
-                  value={endYear && endMonth && endDay ? `${endYear}-${endMonth}-${endDay}` : ""}
-                  onChange={(e) => {
-                    const [year, month, day] = e.target.value.split("-");
-                    setValue("enddate", `${day}-${month}-${year}`); 
-  }}
-                 
-                  
-                />
-                
-                <input 
-                type="time"
-                {...register("endtime",{required:true})}
-                className={styles.calendarInput}
-                onFocus={handleFocus}
-                
-                
-                />
-                
+              
               </div>
-
               {/* Conditionally Render Additional Components */}
-              {isInputFocused && (
-                <>
+              {textValue &&(
+              <div className={showCalendar ? styles.calendarVisible : styles.calendarHidden}>
                   <NavBar
                    
                   startingDate={startingDate}
@@ -330,13 +305,18 @@ return (
                    endDay={endDay}
                    endYear={endYear}
                    />
-                </>
+                   
+                </div>
               )}
               <div className={styles.calendarButtons}>
                 <div><button
                   type="button"
                   className={styles.cancelButton}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false)
+                  setShowForm(true)
+                setShowCalendar(false)
+              }}
                 >
                   Cancel
                 </button>
@@ -353,9 +333,12 @@ return (
           </div>
         </div>
       )}
-    </div>
-  );
-};
+      </div>
+)
+}
+    
+  
+
 
 export default Calendar;
 

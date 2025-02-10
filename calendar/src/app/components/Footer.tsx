@@ -83,65 +83,22 @@ const Footer:React.FC<FooterProps>=({startingDate,
         newDate.setDate(parseInt(newDay));
         onStartDayChange(newDay);// i am not sure about this 
       };
-    
-    /*const handleStartDateChange = (day: string, month: string, year: string) => {
-        const newDate = new Date(`${year}-${month}-${day}`);
-        if (!isNaN(newDate.getTime())) {
-            setValue('startdate', format(newDate, 'yyyy-MM-dd'));
-        }
-    };
-    */
-    /*const handleEndDateChange = (day: string, month: string, year: string) => {
-        const newDate = new Date(`${year}-${month}-${day}`);
-        if (!isNaN(newDate.getTime())) {
-            setValue('enddate', format(newDate, 'yyyy-MM-dd'));
-        }
-    };
-    const { day: startDay, month: startMonth, year: startYear } = getDateParts(startDate);
-    const { day: endDay, month: endMonth, year: endYear } = getDateParts(endDate);
-    const [selectedDay, setSelectedDay] = useState<string>(current_day());
-    const [selectedMonth, setSelectedMonth] = useState<string>(current_month());
-    const [selectedYear, setSelectedYear] = useState<string>(current_year());
-   /* const [startingdayindex, setStartingdayindex] = useState(getDay(startOfMonth(currentDate)));
-*/
-   /* const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedDay(e.target.value);
-    };
 
-    const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedMonth(e.target.value);
-    };
-
-    const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedYear(e.target.value);
-    };
-    */
-    /*let dayName = day_name();
-    try {
-        if (isValidDate(selectedDay,selectedMonth,selectedYear)){
-            const monthName=Months[parseInt(selectedMonth)-1]
-        
-        const date = parse(`${selectedDay} ${monthName} ${selectedYear}`, "dd MMMM yyyy", new Date());
-        
-        dayName = format(date, "EEEE");
-        } else {
-            throw new Error("Invalid date input:")}
-        } catch (error){
-        console.error("Invalid date input:", error);
-        const defaultDate = new Date(); // Fallback to today's date
-        dayName = format(defaultDate, "EEEE");
-        }
-    */
-       
         const { register } = useFormContext();
-            const starttimeInputRef=useRef<HTMLInputElement>(null);
-            const endTimeInputRef=useRef<HTMLInputElement>(null);
-            const handleIconClick=(type:"start"|"end")=>{
-                if(type="start"){
-                    starttimeInputRef.current?.showPicker();
-                }else{
+        const startTimeInputRef = useRef<HTMLInputElement>(null);
+        const endTimeInputRef = useRef<HTMLInputElement>(null);
+        const { ref: startTimeRegisterRef, ...startTimeRest } = register("starttime", { required: true });
+        const { ref: endTimeRegisterRef, ...endTimeRest } = register("endtime", { required: true });
+        const handleFocus=()=>{
+            console.log("Input focused");
+        }
+        const handleIconClick = (type: "start" | "end") => {
+            if (type === "start") {
+                startTimeInputRef.current?.showPicker();
+            } else {
                 endTimeInputRef.current?.showPicker();
-            }}
+            }
+        };
         
         return (
             <div className={styles.footer_container}>
@@ -197,9 +154,14 @@ const Footer:React.FC<FooterProps>=({startingDate,
                         </div>
     
                         <div className={styles.start_time_picker}>
+                        
                             <input type='time' 
-                                {...register("starttime", { required: true })}
-                                ref={starttimeInputRef}
+                                {...startTimeRest}
+                                ref={(e)=>{startTimeRegisterRef(e);
+                                    startTimeInputRef.current=e
+                                }}
+                                onFocus={handleFocus}
+                                step="1"
                             />
                         </div>
                     </div>
@@ -252,10 +214,18 @@ const Footer:React.FC<FooterProps>=({startingDate,
                             </svg>
                         </div>
                         <div className={styles.ending_time_picker}>
-                            <input type='time' 
-                                {...register("endtime", { required: true })}
-                                ref={endTimeInputRef}
-                            />
+                        
+
+                        <input 
+                            type="time"
+                            {...endTimeRest}
+                            ref={(e) => {
+                            endTimeRegisterRef(e);
+                            endTimeInputRef.current = e;
+                            }}
+                            onFocus={handleFocus}
+                            step="1"
+                        />
                         </div>
                     </div>
                 </div>               
