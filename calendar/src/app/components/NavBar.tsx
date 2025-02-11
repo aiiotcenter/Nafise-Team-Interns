@@ -1,9 +1,6 @@
 
 "use client"
-import api from '../crud';
-import { useEffect, useState } from "react";
-import { useForm , SubmitHandler } from "react-hook-form";
-import {format} from "date-fns"
+import { current_year } from "../page";
 import styles from "./NavBar.module.css"
 
 
@@ -24,17 +21,7 @@ const Months=[
     "September", "October", "November", "December"
 ]
 
-//function to get the current month january
-export const current_month=()=>{
-    const today = new Date();
-    return format(today,"MM")//this month january
-};
-//function to get the current year 2025
-export const current_year=()=>{
-    const today = new Date();
-    return format(today,"yyyy")//this  year :2025
-};
-//handles month selection
+
 const NavBar: React.FC<NavBarProps> = ({
     startingDate,
     endingDate,

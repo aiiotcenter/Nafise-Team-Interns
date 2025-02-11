@@ -3,7 +3,7 @@
 import { format , parse} from 'date-fns';
 import { useState , useEffect ,useRef} from 'react';
 import {useFormContext} from "react-hook-form";
-import {current_month , current_year } from './NavBar';
+import {current_month , current_year, current_day } from '../page';
 import styles from './footer.module.css'
 
 interface FooterProps {
@@ -30,21 +30,6 @@ const Months=[
     "January", "February", "March", "April", "May", "June", "July", "August", 
     "September", "October", "November", "December"
 ]
-//functio  to get the current day 25
-export const current_day=() => {
-    const today = new Date();
-    return format(today,"dd") 
-};
-//functionn to get the name of the day
-export const day_name=()=> {
-    const today=new Date();
-    return format(today,'EEEE')||"";
-};
-//function to check if the day-input is valid ex:30feb
-export const isValidDate = (day:String , month:String , year:String) : boolean=>{
-    const date=new Date (`${year}-${month}-${day}`);
-    return !isNaN(date.getTime());
-};
 
 
 
