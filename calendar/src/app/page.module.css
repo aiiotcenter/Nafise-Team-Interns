@@ -66,6 +66,7 @@ body {
     padding-top: 2rem ;
     padding-bottom: 2rem;
     z-index: 1000;
+    -webkit-overflow-scrolling: touch; /* Safari momentum scroll */
   }
   .formVisible {
     display: block;
@@ -91,7 +92,33 @@ body {
     max-width: 400px;
     width: 100%;
   }
-  
+  /* page.module.css - Add Safari prefixes */
+.calendarPopup {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-height: 90vh; /* Limit height */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Hide overflow from child elements */
+  width: 90%; /* Adjust width for mobile */
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  -webkit-flex-direction: column; /* Safari */
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%); /* Safari */
+  transform: translate(-50%, -50%);
+}
+.calendarPopup {
+  -webkit-transition: all 0.3s ease; /* Safari */
+  transition: all 0.3s ease;
+}
+
+
   .calendarTitle {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5rem;
@@ -179,4 +206,34 @@ body {
     25% { transform: translateX(-5px); }
     50% { transform: translateX(5px); }
     75% { transform: translateX(-5px); }
+  }
+  .popupContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    padding: 10px 0;
+  }
+  @media (max-width: 768px) {
+    .calendarPopup {
+      width: 95vw;
+      max-height: 95vh;
+    }
+    
+    .popupContent {
+      padding: 5px 0;
+    }
+  }
+  
+  /* Scrollbar styling */
+  .popupContent::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .popupContent::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+  }
+  
+  .popupContent::-webkit-scrollbar-track {
+    background: #f1f1f1;
   }

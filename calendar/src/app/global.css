@@ -25,3 +25,10 @@ html, body {
   width: 100%;
   
 }
+
+@supports (-webkit-touch-callout: none) {
+  /* Safari-specific CSS */
+  .calendarPopup {
+    height: -webkit-fill-available;
+  }
+}

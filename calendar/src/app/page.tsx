@@ -42,8 +42,8 @@ export const day_name=()=> {
 };
 //function to check if the day-input is valid ex:30feb
 export const isValidDate = (day:String , month:String , year:String) : boolean=>{
-  const date=new Date (`${year}-${month}-${day}`);
-  return !isNaN(date.getTime());
+  const isoDate=`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}T00:00:00`;
+  return !isNaN(new Date(isoDate).getTime());
 };
 
 
@@ -122,6 +122,10 @@ const Home=()=>{
         }
       setIsOpen(false);
       reset();
+      setTimeout(() => {
+        (document.activeElement as HTMLElement)?.blur();
+        window.dispatchEvent(new Event('reset'));
+      }, 0);
       } catch (error) {
         console.error("error submitted data : ",error)
         Swal.fire({
@@ -231,7 +235,7 @@ const Home=()=>{
     {isOpen && (
       <div className={styles.calendarOverlay}>
         <div className={styles.calendarPopup} ref={popupRef}>
-                    
+          <div className={styles.popupContent}   >    
           <div><h2 className={styles.calendarTitle}>{showForm ? "fill the form" : "Select dates & times"}</h2></div>
             <FormProvider {...methods}>
               <form  onSubmit={handleSubmit(onSubmit)}>
@@ -257,7 +261,7 @@ const Home=()=>{
                       className={styles.calendarInput}
                       value={
                       startYear && startMonth && startDay ?
-                     `${startYear}-${startMonth}-${startDay}`
+                     `${startYear}-${startMonth.padStart(2,'0')}-${startDay.padStart(2,'0')}`
                       : ""}
 
                       onFocus={()=>handleDateInputFocus("start")}
@@ -332,6 +336,7 @@ const Home=()=>{
               </div>
             </form>
           </FormProvider>
+        </div>
         </div>
       </div>
     )}
