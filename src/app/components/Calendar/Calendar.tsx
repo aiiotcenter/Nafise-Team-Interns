@@ -110,8 +110,8 @@ function Calendar({ events }: CalendarProps) {
     const isMiddleDay = !isStartDay && !isEndDay;
 
     let borderRadius = "0";
-    let backgroundColor = eventOnDay.color;
-
+    const backgroundColor = eventOnDay.color;
+    
     if (isStartDay) {
       borderRadius = "5px 0 0 5px";
     }
@@ -128,6 +128,7 @@ function Calendar({ events }: CalendarProps) {
 
     return { borderRadius, backgroundColor };
   }
+
 
   return (
     <section className="main">
@@ -198,11 +199,6 @@ function Calendar({ events }: CalendarProps) {
             ))}
             {daysInMonth.map((day, index) => {
               const today = isToday(day);
-              const eventsForDay = le.filter(
-                (event) =>
-                  isSameDay(event.start, day) ||
-                  (event.start <= day && event.end >= day)
-              );
 
               const { borderRadius, backgroundColor } = getEventBorders(day) || {};
 
@@ -213,7 +209,11 @@ function Calendar({ events }: CalendarProps) {
                   onClick={() => handleDayClick(day)}
                   style={{
                     backgroundColor: today ? "rgb(61, 141, 252)" : backgroundColor,
-                    color: (eventsForDay.length > 0 || today) ? "white" : "black",
+                    color: today 
+                    ? "white" 
+                    : (backgroundColor && (backgroundColor.toLowerCase() === "#ffffff" || backgroundColor.toLowerCase() === "white") 
+                        ? "black" 
+                        : "inherit"),
                     padding: today ? "2px" : "0",
                     position: "relative",
                     cursor: "pointer",
@@ -239,15 +239,17 @@ function Calendar({ events }: CalendarProps) {
                       <b><p style={{fontSize: "15px"}}>{format(event.start, "dd")}</p>{format(event.start, "EEE")}</b>
                     </div>
                     <div
-                      className="eTitle"
-                      style={{
-                        backgroundColor: event.color,
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      {event.title}
-                    </div>
+                    className="eTitle"
+                    style={{
+                      backgroundColor: event.color,
+                      color: (event.color.toLowerCase() === "#ffffff" || event.color.toLowerCase() === "white") 
+                        ? "black" 
+                        : "white",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {event.title}
+                  </div>
                   </div>
                 );
               }
@@ -267,7 +269,9 @@ function Calendar({ events }: CalendarProps) {
                 className="eTitle"
                 style={{
                   backgroundColor: event.color,
-                  color: "white",
+                  color: (event.color.toLowerCase() === "#ffffff" || event.color.toLowerCase() === "white") 
+                    ? "black" 
+                    : "white",
                   borderRadius: "5px",
                 }}
               >

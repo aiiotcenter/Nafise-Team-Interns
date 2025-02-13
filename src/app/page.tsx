@@ -2,8 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "./components/Button/Button";
 import Calendar from "./components/Calendar/Calendar"
-import { addDays, subDays } from "date-fns";
-
 
 
 const Home: React.FC = () => {
@@ -37,7 +35,7 @@ const Home: React.FC = () => {
                   start: new Date(2025, 0, 28, 12, 45),
                   end: new Date(2025, 0, 30, 13, 45),
                   title: "Team meeting",
-                  color: "blue",
+                  color: "white",
                 },
                 {
                   start: new Date(2025, 0, 29, 8, 30),
