@@ -9,8 +9,7 @@ import { format } from 'date-fns';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Agenda from './components/Agenda';
-
-
+import LastForm from "./components/lastForm";
 
 const useFocusHandler=()=>{
   const [isInputFocused , setIsInputFocused]=useState<boolean>(false);
@@ -58,7 +57,9 @@ textfield:string;
 starttime:string
 startdate:string;
 enddate:string;
-endtime:string
+endtime:string;
+startingdate?:string;
+endingdate?:string;
 }
 
 
@@ -86,12 +87,9 @@ const Home=()=>{
     const [showCalendar,setShowCalendar]=useState(false);
     const[currentFocus, setCurrentFocus]=useState<"start" | "end" | null>(null);
     const[showForm,setShowForm]=useState(true);
-  
-    const handleDateInputFocus = (type: "start" | "end") => {
-    setShowForm(false);
-      setShowCalendar(true);
-    setCurrentFocus(type);
-    };
+    const [submittedData,setSubmittedData]=useState<submittedData|null>(null);
+    const[showSubmission,setShowSubmission]=useState(false);
+    
     const handleCalendarClose = () => {
       setShowCalendar(false);
       setCurrentFocus(null);
@@ -99,10 +97,11 @@ const Home=()=>{
     
   
     const onSubmit: SubmitHandler<submittedData> = async(data) => {
-      const mergeData={
+      const mergeData : submittedData={
+      ...data,
         textfield:data.textfield,
-        startingdate:`${data.startdate} ${data.starttime}`,
-        endingdate:`${data.enddate} ${data.endtime}`
+        startingdate:`${data.startdate} ${data.starttime}`||"",
+        endingdate:`${data.enddate} ${data.endtime}`||"",
       }
       
       try{
@@ -110,6 +109,8 @@ const Home=()=>{
   
         console.log("Data submitted successfully:", response);
         if(response.status==201){
+          setSubmittedData(mergeData);
+          setShowSubmission(true);
           Swal.fire({
             position: "center",
             icon: "success",
@@ -117,6 +118,7 @@ const Home=()=>{
             showConfirmButton: false,
             timer: 1500
           });
+          setTimeout(()=>setShowSubmission(false), 10000);
         }
       setIsOpen(false);
       reset();
@@ -132,6 +134,8 @@ const Home=()=>{
       }
       
     };
+   
+    
   
     const handleDateSelection=(dates:Date[])=>{
       if (dates.length===1){
@@ -196,16 +200,26 @@ const Home=()=>{
   const watchedStartTime=watch("starttime");
   const watchedEndTime=watch("endtime");
   const textValue = watch("textfield");
-  
-  {showCalendar && textValue && <h3>{textValue}</h3>}
   useEffect(()=>{
     setStartingTime(watchedStartTime);
   },[watchedStartTime]);
   useEffect(()=>{
     setEndingTime(watchedEndTime);
   },[watchedEndTime])
-
-
+  const handleDateInputFocus = (type: "start" | "end") => {
+    if (!textValue) {
+      Swal.fire({
+        icon: "error",
+        title: "Missing Information",
+        text: "Please enter a lecture name before selecting dates!",
+      });
+      return;
+    }
+    setShowForm(false);
+    setShowCalendar(true);
+  setCurrentFocus(type);
+  };
+  
   return (
   <div className={`${styles.calendarMain}`}>
     <button
@@ -250,7 +264,7 @@ const Home=()=>{
                     />
                   </div>
                 </div>
-                {textValue &&(
+                {textValue ? (
                   <div className={showCalendar ? styles.calendarVisible : styles.calendarHidden}>
                     <NavBar 
                       startingDate={startingDate}
@@ -286,7 +300,17 @@ const Home=()=>{
                       endYear={endYear}
                     />
                   </div>
+                ):(
+                  <div className={styles.calendarHidden}>
+                    {showCalendar && (
+                    <div className={styles.validationMessage}>
+                      Please enter a lecture name first
+                    </div>
+                    )}
+                  </div>
                 )}
+    
+                
                 <div className={styles.calendarButtons}>
                   <div><button
                     type="button"
@@ -311,6 +335,7 @@ const Home=()=>{
         </div>
       </div>
     )}
+    {showSubmission && submittedData && <LastForm data={submittedData} />}
   </div>
 )}
 export default Home;
