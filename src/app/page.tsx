@@ -4,10 +4,9 @@ import Card from "./../components/card/card";
 
 const Home: React.FC = () => {
     const [cities, setCities] = useState([
-        { name: "Nicosia", color: "#FF6F61" },
-        { name: "Tehran", color: "#6B5B95" },
-        { name: "Tehran", color: "#88B04B" },
-        { name: "Amsterdam", color: "#F7CAC9" },
+        { name: "Nicosia" },
+        { name: "Tehran" },
+        { name: "Amsterdam" },
     ]);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -75,7 +74,7 @@ const Home: React.FC = () => {
                 }}
             >
                 {cities.map((city, index) => (
-                    <Card key={index} city={city.name} color={city.color} />
+                    <Card key={index} city={city.name} />
                 ))}
             </div>
             <style jsx>{`
