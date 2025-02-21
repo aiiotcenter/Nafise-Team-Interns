@@ -13,9 +13,10 @@ interface WeatherData {
 
 interface CardProps {
   city: string;
+  color?: string; // Add the optional color prop
 }
 
-const Card: React.FC<CardProps> = ({ city }) => {
+const Card: React.FC<CardProps> = ({ city, color }) => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +42,9 @@ const Card: React.FC<CardProps> = ({ city }) => {
           response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=5691e45d24f71f52bd9f8fb0f5852e1f&units=metric`
           );
+
+          //error 
+          console.log(response)
         } else {
           response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5691e45d24f71f52bd9f8fb0f5852e1f&units=metric`
@@ -98,7 +102,8 @@ const Card: React.FC<CardProps> = ({ city }) => {
     return <div className={styles.card}>No data available.</div>;
   }
 
-  const cardColor = getColorBasedOnTemperature(weatherData.temperature);
+  // Use the passed color prop if available, otherwise calculate based on temperature
+  const cardColor = color || getColorBasedOnTemperature(weatherData.temperature);
 
   return (
     <div className={styles.card} style={{ backgroundColor: cardColor }}>

@@ -4,9 +4,10 @@ import Card from "./../components/card/card";
 
 const Home: React.FC = () => {
     const [cities, setCities] = useState([
-        { name: "Nicosia" },
+        { name: "Paris" },
         { name: "Tehran" },
-        { name: "Amsterdam" },
+        { name: "Tokyo" },
+        { name: "live" },
     ]);
     const [searchQuery, setSearchQuery] = useState("");
 
