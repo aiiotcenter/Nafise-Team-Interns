@@ -1,30 +1,46 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "../components/Button/Button";
+import ExamModal from "../components/ExamModal/ExamModal";
+
+const mockQuestions = [
+    {
+        "section": "multiple-choice",
+        "question": "What command is used to change directory in Linux?",
+        "options": ["mkdir", "chdir", "cd", "pwd"],
+        "answer": "cd"
+    },
+    {
+        "section": "multiple-choice",
+        "question": "Which command is used to remove a file in Linux?",
+        "options": ["del", "remove", "rm", "eradicate"],
+        "answer": "rm"
+    },
+    {
+        "section": "true/false",
+        "question": "The 'ls' command lists all files in the current directory.",
+        "options": ["True", "False"],
+        "answer": "True"
+    },
+    {
+        "section": "fill-in-the-blank",
+        "question": "The '___' command is used to change the permissions of a file.",
+        "options": [],
+        "answer": "chmod"
+    }
+];
 
 const Home: React.FC = () => {
-  const [message, setMessage] = useState("");
+  const [isExamOpen, setIsExamOpen] = useState(false);
 
-  const handleClick = () => {
-    setMessage("Welcome User");
-  };
-
-
-  // @Hassan & @Amir
-  // here you can see an example of how to use a component 
-  // your components must be flexable as well , 
-  // for example this button can take any color and text and onClick function so we can use it anywhere in our code
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Home Page</h1>
-      <Button
-        onClick={handleClick}
-        place=''
-        color="gray"
-      >
-        Click On Me
+      <h1>Online Exam</h1>
+      <Button onClick={() => setIsExamOpen(true)} place="" color="gray">
+        Start Exam
       </Button>
-      {message && <p style={{ marginTop: "20px", fontSize: "18px" }}>{message}</p>}
+
+      {isExamOpen && <ExamModal questions={mockQuestions} onClose={() => setIsExamOpen(false)} />}
     </div>
   );
 };
