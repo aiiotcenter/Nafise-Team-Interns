@@ -1,5 +1,6 @@
 import { ChatbotIcon } from "./ChatbotIcon"
 import { Message } from "../page";
+import { Chatbottof } from "./Chatbottof";
 
 interface ChatMessageProps {
     chat: Message ;
@@ -8,7 +9,7 @@ interface ChatMessageProps {
 const ChatMessage = ({chat}:ChatMessageProps) => {
     return (
         <div className={`message ${chat.role === "model" ? 'bot' : 'user'}-message ${chat.isError?"error":"" }`}>
-            {chat.role === "model" && <ChatbotIcon />}
+            {chat.role === "model" && <Chatbottof />}
             <p className='message-text'> {chat.text}</p>
         </div>
     )

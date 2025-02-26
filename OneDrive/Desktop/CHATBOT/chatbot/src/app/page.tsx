@@ -6,6 +6,7 @@ import ChatMessage from "./components/ChatMessage";
 import { CloseIcon } from "./components/CloseIcon";
 import { ArrowDown } from "./components/ArrowDown";
 import { usePathname } from "next/navigation";
+import { Chatbottof } from "./components/Chatbottof";
 
 
 
@@ -111,14 +112,14 @@ const apiResponseText = data.candidates[0].content.parts[0].text
     <div className={`container ${showChatbot ? 'show-chatbot' : ''}`} >
       <button onClick={()=>setShowChatbot(prev =>!prev)} id="chatbot-toggler"
         className="material-symbols-rounded">
-          {showChatbot ? <CloseIcon/>:<ChatbotIcon/>}
+          {showChatbot ? <CloseIcon/>:<Chatbottof/>}
         
       </button>
       <div className="chatbot-popup">
         {/*chat header */}
         <div className="chat-header">
           <div className="header-info">
-            <ChatbotIcon/>
+            <Chatbottof/>
             <h2 className="logo-text">Chatbot</h2>          
           </div>
           <button onClick={()=>setShowChatbot(prev =>!prev)} className="material-symbols-outlined">
@@ -128,7 +129,7 @@ const apiResponseText = data.candidates[0].content.parts[0].text
         {/*chat body */}
         <div className="chat-body" ref={chatBodyRef}>
           <div className="message bot-message">
-            <ChatbotIcon/>
+            <Chatbottof/>
             <p className="message-text">
               Hello  to {pageName} page 👋 <br /> How can I help you today ? 😊
             </p>
