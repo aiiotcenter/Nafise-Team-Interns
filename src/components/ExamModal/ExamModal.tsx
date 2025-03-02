@@ -9,47 +9,50 @@ type Question = {
   answer: string;
 };
 
-type ExamModalProps = {
+type ExamProps = {
   questions: Question[];
-  onClose: () => void;
 };
 
-const ExamModal: React.FC<ExamModalProps> = ({ questions, onClose }) => {
+const Exam: React.FC<ExamProps> = ({ questions }) => {
   const totalQuestions = questions.length;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<number[]>([]);
-  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+  const [selectedAnswer, setSelectedAnswer] = useState<{ [key: number]: string }>({});
 
   const handleNext = () => {
-    if (!answeredQuestions.includes(currentQuestionIndex + 1)) {
+    if (!answeredQuestions.includes(currentQuestionIndex + 1) && selectedAnswer[currentQuestionIndex] !== undefined) {
       setAnsweredQuestions([...answeredQuestions, currentQuestionIndex + 1]);
     }
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer("");
-    } else {
-      alert("Exam Completed!");
-      onClose();
     }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const handleAnswer = (option: string) => {
+    setSelectedAnswer({ ...selectedAnswer, [currentQuestionIndex]: option });
+  };
+
+  const handleFinish = () => {
+    alert("Exam completed! Closing window...");
+    window.close(); // Sınav ekranını kapatır
   };
 
   const question = questions[currentQuestionIndex];
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        background: "white",
-        padding: "20px",
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-        zIndex: 1000,
-        width: "400px",
-        textAlign: "center",
-      }}
-    >
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <ProgressIndicator
+        totalQuestions={totalQuestions}
+        answeredQuestions={answeredQuestions}
+        currentQuestion={currentQuestionIndex + 1}
+      />
+
       <h2>Question {currentQuestionIndex + 1}</h2>
       <p>{question.question}</p>
 
@@ -57,14 +60,14 @@ const ExamModal: React.FC<ExamModalProps> = ({ questions, onClose }) => {
         question.options.map((option, index) => (
           <button
             key={index}
-            onClick={() => setSelectedAnswer(option)}
+            onClick={() => handleAnswer(option)}
             style={{
               display: "block",
               width: "100%",
               padding: "10px",
               margin: "5px 0",
-              background: selectedAnswer === option ? "#6a0dad" : "#f0f0f0",
-              color: selectedAnswer === option ? "white" : "black",
+              background: selectedAnswer[currentQuestionIndex] === option ? "#6a0dad" : "#f0f0f0",
+              color: selectedAnswer[currentQuestionIndex] === option ? "white" : "black",
             }}
           >
             {option}
@@ -75,37 +78,39 @@ const ExamModal: React.FC<ExamModalProps> = ({ questions, onClose }) => {
         <input
           type="text"
           placeholder="Type your answer..."
-          value={selectedAnswer}
-          onChange={(e) => setSelectedAnswer(e.target.value)}
+          value={selectedAnswer[currentQuestionIndex] || ""}
+          onChange={(e) => handleAnswer(e.target.value)}
           style={{ width: "100%", padding: "10px", marginTop: "10px" }}
         />
       )}
 
-      <ProgressIndicator
-        totalQuestions={totalQuestions}
-        answeredQuestions={answeredQuestions}
-        currentQuestion={currentQuestionIndex + 1}
-      />
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
+        <button
+          onClick={handlePrevious}
+          disabled={currentQuestionIndex === 0}
+          style={{ padding: "10px", width: "45%", background: "#f0f0f0", color: "black" }}
+        >
+          Previous Question
+        </button>
 
-      <button
-        onClick={handleNext}
-        style={{
-          marginTop: "20px",
-          padding: "10px",
-          width: "100%",
-          background: "#6a0dad",
-          color: "white",
-          border: "none",
-        }}
-      >
-        Next Question
-      </button>
-
-      <button onClick={onClose} style={{ marginTop: "10px", width: "100%" }}>
-        Close
-      </button>
+        {currentQuestionIndex < totalQuestions - 1 ? (
+          <button
+            onClick={handleNext}
+            style={{ padding: "10px", width: "45%", background: "#6a0dad", color: "white", border: "none" }}
+          >
+            Next Question
+          </button>
+        ) : (
+          <button
+            onClick={handleFinish}
+            style={{ padding: "10px", width: "45%", background: "#ff4d4d", color: "white", border: "none" }}
+          >
+            Finish Exam
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
-export default ExamModal;
+export default Exam;
