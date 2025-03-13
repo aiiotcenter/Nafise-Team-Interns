@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "./components/Button/Button";
 import Calendar from "./components/Calendar/Calendar";
+import Camera from "./components/camera/camera";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 const Home: React.FC = () => {
@@ -24,9 +25,8 @@ const Home: React.FC = () => {
         place=""
         color="gray"
       >
-        Click On Me
+        Calendar
       </Button>
-
       {loading ? (
         <div
           style={{
@@ -49,6 +49,7 @@ const Home: React.FC = () => {
               marginTop: "15px",
             }}
           >
+            <div style={{display: "flex", flexDirection: "column", rowGap: "100px"}}>
             <Calendar
               events={[
                 {
@@ -65,6 +66,8 @@ const Home: React.FC = () => {
                 },
               ]}
             />
+            <Camera />
+            </div>
           </div>
         )
       )}
