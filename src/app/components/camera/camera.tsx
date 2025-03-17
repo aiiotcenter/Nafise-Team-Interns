@@ -61,11 +61,16 @@ function Camera(){
         <>
             <div className="camera">
                 <h2>Camera</h2>
-                <video ref={videoRef} autoPlay playsInline style={{width: "100%"}}></video>
-                <button onClick={Snap}>Take Snapshot</button>
+                <video ref={videoRef} className="video" autoPlay playsInline></video>
+                <div className="camera-buttons">
+                  <button style={{backgroundColor: "red"}}>Delete<span style={{paddingLeft: "10px", fontWeight: "bolder"}}>&#10005;</span></button>
+                  <button onClick={Snap} style={{backgroundColor: "green"}}>Snap<span style={{paddingLeft: "10px", fontWeight: "bolder"}}>&#8594;</span></button>
+                </div>
                 <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-                {capturedImage && <img src={capturedImage} alt="Captured" style={{ marginTop: "10px", width: "100%"}} />}
-                {capturedImage && <button onClick={downloadImage}>Download Image</button>}
+                {capturedImage && <img  className="video" src={capturedImage} alt="Captured" style={{ marginTop: "10px" }} />}
+                <div className="camera-buttons">
+                {capturedImage && <button style={{backgroundColor: "grey", width: "500px"}} onClick={downloadImage}>Download Image</button>}
+                </div>
             </div>
             <br />
         </>
