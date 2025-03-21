@@ -1,32 +1,77 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "../components/Button/Button";
+import React, { useEffect, useState } from "react";
+import GoalList from "../components/GoalList/GoalList";
 
-const Home: React.FC = () => {
-  const [message, setMessage] = useState("");
+const HomePage = () => {
+  const [goals, setGoals] = useState<any[]>([]);
+  const [goalName, setGoalName] = useState("");
+  const [goalDays, setGoalDays] = useState(30);
 
-  const handleClick = () => {
-    setMessage("Welcome User");
+  useEffect(() => {
+    const storedGoals = localStorage.getItem("goals");
+    if (storedGoals) {
+      setGoals(JSON.parse(storedGoals));
+    }
+  }, []);
+
+  const handleAddGoal = () => {
+    const newGoal = {
+      id: Date.now(),
+      name: goalName,
+      days: goalDays,
+      completedDays: 0,
+      color: getRandomColor(),
+      history: [],
+      startDate: new Date().toISOString().split("T")[0],
+    };
+    const updatedGoals = [...goals, newGoal];
+    setGoals(updatedGoals);
+    localStorage.setItem("goals", JSON.stringify(updatedGoals));
+    localStorage.setItem(`goal-${newGoal.id}-data`, JSON.stringify(newGoal));
+    setGoalName("");
+    setGoalDays(30);
   };
 
+  const getRandomColor = () => {
+    const colors = ["#f44336", "#4caf50", "#2196f3", "#ff9800", "#9c27b0"];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
 
-  // @Hassan & @Amir
-  // here you can see an example of how to use a component 
-  // your components must be flexable as well , 
-  // for example this button can take any color and text and onClick function so we can use it anywhere in our code
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updated = localStorage.getItem("goals");
+      if (updated) {
+        setGoals(JSON.parse(updated));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Home Page</h1>
-      <Button
-        onClick={handleClick}
-        place=''
-        color="gray"
-      >
-        Click On Me
-      </Button>
-      {message && <p style={{ marginTop: "20px", fontSize: "18px" }}>{message}</p>}
+    <div style={{ padding: 20 }}>
+      <h1>Goal Tracker</h1>
+      <div style={{ marginBottom: 20 }}>
+        <input
+          type="text"
+          placeholder="Goal Name"
+          value={goalName}
+          onChange={(e) => setGoalName(e.target.value)}
+          style={{ padding: 10, marginRight: 10 }}
+        />
+        <input
+          type="number"
+          placeholder="Number of Days"
+          value={goalDays}
+          onChange={(e) => setGoalDays(parseInt(e.target.value))}
+          style={{ padding: 10, width: 80, marginRight: 10 }}
+        />
+        <button onClick={handleAddGoal} style={{ padding: 10 }}>
+          Add Goal
+        </button>
+      </div>
+      <GoalList goals={goals} setGoals={setGoals} />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
