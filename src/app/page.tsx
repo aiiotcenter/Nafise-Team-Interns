@@ -1,114 +1,77 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "../components/Button/Button";
-import ExamModal from "../components/ExamModal/ExamModal";
+import React, { useEffect, useState } from "react";
+import GoalList from "../components/GoalList/GoalList";
 
-const mockQuestions = [
-  {
-    section: "multiple-choice",
-    question: "Which command is used to change the directory in Linux?",
-    options: ["mkdir", "chdir", "cd", "pwd"],
-    answer: "cd"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command is used to remove a file in Linux?",
-    options: ["del", "remove", "rm", "erase"],
-    answer: "rm"
-  },
-  {
-    section: "true/false",
-    question: "The 'ls' command lists all files in the current directory.",
-    options: ["True", "False"],
-    answer: "True"
-  },
-  {
-    section: "fill-in-the-blank",
-    question: "The '___' command is used to change file permissions.",
-    options: [],
-    answer: "chmod"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command prints the current working directory?",
-    options: ["lsdir", "printcwd", "pwd", "cwdprint"],
-    answer: "pwd"
-  },
-  {
-    section: "true/false",
-    question: "The 'pwd' command stands for 'Print With Detail'.",
-    options: ["True", "False"],
-    answer: "False"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command displays the contents of a file?",
-    options: ["display", "cat", "show", "see"],
-    answer: "cat"
-  },
-  {
-    section: "fill-in-the-blank",
-    question: "The command '_____' is used to exit the shell.",
-    options: [],
-    answer: "exit"
-  },
-  {
-    section: "multiple-choice",
-    question: "What does the 'ps' command do?",
-    options: ["Pauses the system", "Prints the system", "Shows process status", "Displays active processes"],
-    answer: "Displays active processes"
-  },
-  {
-    section: "true/false",
-    question: "The 'cp' command is used to copy files.",
-    options: ["True", "False"],
-    answer: "True"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command is used to move or rename files?",
-    options: ["mv", "move", "rename", "chg"],
-    answer: "mv"
-  },
-  {
-    section: "fill-in-the-blank",
-    question: "To create a new directory, use the command '____'.",
-    options: [],
-    answer: "mkdir"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command lists the contents of a directory?",
-    options: ["ls", "dir", "show", "list"],
-    answer: "ls"
-  },
-  {
-    section: "true/false",
-    question: "In Linux, 'sudo' is used to execute commands as another user.",
-    options: ["True", "False"],
-    answer: "True"
-  },
-  {
-    section: "multiple-choice",
-    question: "Which command is used to search for text in a file?",
-    options: ["search", "grep", "find", "scan"],
-    answer: "grep"
-  }
-];
+const HomePage = () => {
+  const [goals, setGoals] = useState<any[]>([]);
+  const [goalName, setGoalName] = useState("");
+  const [goalDays, setGoalDays] = useState(30);
 
-const Home: React.FC = () => {
-  const [isExamOpen, setIsExamOpen] = useState(false);
+  useEffect(() => {
+    const storedGoals = localStorage.getItem("goals");
+    if (storedGoals) {
+      setGoals(JSON.parse(storedGoals));
+    }
+  }, []);
+
+  const handleAddGoal = () => {
+    const newGoal = {
+      id: Date.now(),
+      name: goalName,
+      days: goalDays,
+      completedDays: 0,
+      color: getRandomColor(),
+      history: [],
+      startDate: new Date().toISOString().split("T")[0],
+    };
+    const updatedGoals = [...goals, newGoal];
+    setGoals(updatedGoals);
+    localStorage.setItem("goals", JSON.stringify(updatedGoals));
+    localStorage.setItem(`goal-${newGoal.id}-data`, JSON.stringify(newGoal));
+    setGoalName("");
+    setGoalDays(30);
+  };
+
+  const getRandomColor = () => {
+    const colors = ["#f44336", "#4caf50", "#2196f3", "#ff9800", "#9c27b0"];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updated = localStorage.getItem("goals");
+      if (updated) {
+        setGoals(JSON.parse(updated));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Online Exam</h1>
-      <Button onClick={() => setIsExamOpen(true)} place="" color="gray">
-        Start Exam
-      </Button>
-
-      {isExamOpen && <ExamModal questions={mockQuestions} onClose={() => setIsExamOpen(false)} />}
+    <div style={{ padding: 20 }}>
+      <h1>Goal Tracker</h1>
+      <div style={{ marginBottom: 20 }}>
+        <input
+          type="text"
+          placeholder="Goal Name"
+          value={goalName}
+          onChange={(e) => setGoalName(e.target.value)}
+          style={{ padding: 10, marginRight: 10 }}
+        />
+        <input
+          type="number"
+          placeholder="Number of Days"
+          value={goalDays}
+          onChange={(e) => setGoalDays(parseInt(e.target.value))}
+          style={{ padding: 10, width: 80, marginRight: 10 }}
+        />
+        <button onClick={handleAddGoal} style={{ padding: 10 }}>
+          Add Goal
+        </button>
+      </div>
+      <GoalList goals={goals} setGoals={setGoals} />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
