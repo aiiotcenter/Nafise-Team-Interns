@@ -2,10 +2,19 @@
 import React, { useEffect, useState } from "react";
 import GoalList from "../components/GoalList/GoalList";
 
+interface Goal {
+  id: number;
+  name: string;
+  days: number;
+  completedDays: number;
+  color: string;
+  history: { date: string; status: "✔" | "❌" }[];
+}
+
 const HomePage = () => {
-  const [goals, setGoals] = useState<any[]>([]);
-  const [goalName, setGoalName] = useState("");
-  const [goalDays, setGoalDays] = useState(30);
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [goalName, setGoalName] = useState<string>("");
+  const [goalDays, setGoalDays] = useState<number>(30);
 
   useEffect(() => {
     const storedGoals = localStorage.getItem("goals");
@@ -15,14 +24,13 @@ const HomePage = () => {
   }, []);
 
   const handleAddGoal = () => {
-    const newGoal = {
+    const newGoal: Goal = {
       id: Date.now(),
       name: goalName,
       days: goalDays,
       completedDays: 0,
       color: getRandomColor(),
       history: [],
-      startDate: new Date().toISOString().split("T")[0],
     };
     const updatedGoals = [...goals, newGoal];
     setGoals(updatedGoals);
@@ -32,7 +40,7 @@ const HomePage = () => {
     setGoalDays(30);
   };
 
-  const getRandomColor = () => {
+  const getRandomColor = (): string => {
     const colors = ["#f44336", "#4caf50", "#2196f3", "#ff9800", "#9c27b0"];
     return colors[Math.floor(Math.random() * colors.length)];
   };

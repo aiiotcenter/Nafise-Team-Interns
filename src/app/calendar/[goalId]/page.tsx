@@ -2,18 +2,21 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
+interface Goal {
+  id: number;
+  name: string;
+  days: number;
+  completedDays: number;
+  color: string;
+  history: { date: string; status: "✔" | "❌" }[];
+}
+
 const CalendarPage = () => {
   const router = useRouter();
   const params = useParams();
   const goalId = params.goalId as string;
 
   const [selectedDays, setSelectedDays] = useState<{ [key: string]: "✔" | "❌" }>({});
-  const [goalData, setGoalData] = useState<{ startDate: string; days: number; completedDays: number }>({
-    startDate: "2024-03-01",
-    days: 30,
-    completedDays: 0,
-  });
-
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [groupedData, setGroupedData] = useState<{ [year: string]: { [month: string]: string[] } }>({});
@@ -34,9 +37,8 @@ const CalendarPage = () => {
       localStorage.setItem(`goal-${goalId}-calendar`, JSON.stringify(updatedDays));
 
       const completedCount = Object.values(updatedDays).filter((val) => val === "✔").length;
-
       const storedGoals = JSON.parse(localStorage.getItem("goals") || "[]");
-      const updatedGoals = storedGoals.map((goal: any) => {
+      const updatedGoals = storedGoals.map((goal: Goal) => {
         if (goal.id.toString() === goalId) {
           return { ...goal, completedDays: completedCount };
         }
@@ -57,14 +59,7 @@ const CalendarPage = () => {
 
   useEffect(() => {
     try {
-      const storedGoal = localStorage.getItem(`goal-${goalId}-data`);
       const storedCalendar = localStorage.getItem(`goal-${goalId}-calendar`);
-
-      if (storedGoal) {
-        const parsedGoal = JSON.parse(storedGoal);
-        setGoalData(parsedGoal);
-      }
-
       if (storedCalendar) {
         const parsedCalendar = JSON.parse(storedCalendar);
         setSelectedDays(parsedCalendar);
@@ -90,7 +85,6 @@ const CalendarPage = () => {
   const handleMonthChange = (change: number) => {
     let newMonth = currentMonth + change;
     let newYear = currentYear;
-
     if (newMonth > 11) {
       newMonth = 0;
       newYear++;
@@ -98,7 +92,6 @@ const CalendarPage = () => {
       newMonth = 11;
       newYear--;
     }
-
     setCurrentMonth(newMonth);
     setCurrentYear(newYear);
   };
