@@ -78,6 +78,7 @@ const Home: React.FC = () => {
                     <Card key={index} city={city.name} />
                 ))}
             </div>
+
             <style jsx>{`
                 @keyframes gradientBackground {
                     0% {
