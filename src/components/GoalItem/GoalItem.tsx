@@ -3,7 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
-type GoalProps = {
+interface GoalProps {
   goal: {
     id: number;
     name: string;
@@ -13,7 +13,7 @@ type GoalProps = {
     history: { date: string; status: "✔" | "❌" }[];
   };
   onDelete: (id: number) => void;
-};
+}
 
 const GoalItem: React.FC<GoalProps> = ({ goal, onDelete }) => {
   const router = useRouter();
@@ -23,57 +23,62 @@ const GoalItem: React.FC<GoalProps> = ({ goal, onDelete }) => {
   return (
     <div
       style={{
-        background: "#ffffff",
-        border: `3px solid ${goal.color}`,
-        padding: "15px",
+        background: goal.color,
+        padding: "20px",
         marginBottom: "16px",
-        borderRadius: "10px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        borderRadius: "16px",
+        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.15)",
         transition: "0.3s ease",
-        textAlign: "left",
         position: "relative",
+        color: "#fff",
       }}
     >
-      {/* Delete button */}
+      {/* Delete Button */}
       <button
         onClick={() => onDelete(goal.id)}
         style={{
           position: "absolute",
-          top: "10px",
-          right: "10px",
-          background: "transparent",
+          top: "12px",
+          right: "12px",
+          background: "rgba(255, 255, 255, 0.2)",
+          color: "#fff",
           border: "none",
-          fontSize: "18px",
+          borderRadius: "50%",
+          width: "32px",
+          height: "32px",
           cursor: "pointer",
-          color: "#999",
+          fontWeight: "bold",
         }}
-        title="Delete Goal"
       >
-        ✖
+        ×
       </button>
 
-      <h3 style={{ marginBottom: "8px", color: "#333" }}>{goal.name}</h3>
+      {/* Goal Name */}
+      <h3 style={{ fontSize: "1.4rem", marginBottom: "10px" }}>{goal.name}</h3>
 
-      <ProgressBar progress={completionRate} color={goal.color} />
+      {/* Progress Bar */}
+      <ProgressBar progress={completionRate} color="#fff" />
 
-      <p style={{ fontSize: "0.9rem", color: "#555", marginTop: "10px" }}>
+      {/* Completion Info */}
+      <p style={{ marginTop: "8px", fontSize: "0.95rem" }}>
         {goal.completedDays} / {goal.days} days completed (<strong>{completionRate}%</strong>)
       </p>
 
-      <div style={{ display: "flex", gap: "5px", marginTop: "10px" }}>
+      {/* Last 5 Days */}
+      <div style={{ display: "flex", gap: "6px", marginTop: "12px" }}>
         {last5Days.map((day, index) => (
           <div
             key={index}
             style={{
-              width: "25px",
-              height: "25px",
-              backgroundColor: day.status === "✔" ? goal.color : "#fff",
-              border: `2px solid ${goal.color}`,
+              width: "28px",
+              height: "28px",
+              backgroundColor: day.status === "✔" ? "#ffffff" : "transparent",
+              border: `2px solid #fff`,
               borderRadius: "50%",
               textAlign: "center",
-              lineHeight: "25px",
+              lineHeight: "28px",
               fontWeight: "bold",
-              color: day.status === "✔" ? "#fff" : goal.color,
+              color: day.status === "✔" ? goal.color : "#fff",
             }}
           >
             {day.status}
@@ -81,17 +86,19 @@ const GoalItem: React.FC<GoalProps> = ({ goal, onDelete }) => {
         ))}
       </div>
 
+      {/* Open Calendar Button */}
       <button
         onClick={() => router.push(`/calendar/${goal.id}`)}
         style={{
-          marginTop: "10px",
-          padding: "10px 15px",
-          backgroundColor: goal.color,
-          color: "#fff",
+          marginTop: "16px",
+          padding: "10px 20px",
+          backgroundColor: "#ffffff",
+          color: goal.color,
           border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
+          borderRadius: "10px",
           fontWeight: "bold",
+          cursor: "pointer",
+          fontSize: "15px",
         }}
       >
         Open Calendar
