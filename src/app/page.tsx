@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import GoalList from "../components/GoalList/GoalList";
+import GoalForm from "../components/GoalForm/GoalForm";
 
 interface Goal {
   id: number;
@@ -13,8 +14,6 @@ interface Goal {
 
 const HomePage = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [goalName, setGoalName] = useState<string>("");
-  const [goalDays, setGoalDays] = useState<number>(30);
 
   useEffect(() => {
     const storedGoals = localStorage.getItem("goals");
@@ -23,11 +22,11 @@ const HomePage = () => {
     }
   }, []);
 
-  const handleAddGoal = () => {
+  const handleAddGoal = (name: string, days: number) => {
     const newGoal: Goal = {
       id: Date.now(),
-      name: goalName,
-      days: goalDays,
+      name,
+      days,
       completedDays: 0,
       color: getRandomColor(),
       history: [],
@@ -36,49 +35,31 @@ const HomePage = () => {
     setGoals(updatedGoals);
     localStorage.setItem("goals", JSON.stringify(updatedGoals));
     localStorage.setItem(`goal-${newGoal.id}-data`, JSON.stringify(newGoal));
-    setGoalName("");
-    setGoalDays(30);
+    localStorage.setItem(`goal-${newGoal.id}-calendar`, JSON.stringify({}));
   };
 
-  const getRandomColor = (): string => {
-    const colors = ["#f44336", "#4caf50", "#2196f3", "#ff9800", "#9c27b0"];
+  const getRandomColor = () => {
+    const colors = ["#ff6b6b", "#6bc5ff", "#ffd166", "#06d6a0", "#a29bfe"];
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const updated = localStorage.getItem("goals");
-      if (updated) {
-        setGoals(JSON.parse(updated));
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Goal Tracker</h1>
-      <div style={{ marginBottom: 20 }}>
-        <input
-          type="text"
-          placeholder="Goal Name"
-          value={goalName}
-          onChange={(e) => setGoalName(e.target.value)}
-          style={{ padding: 10, marginRight: 10 }}
-        />
-        <input
-          type="number"
-          placeholder="Number of Days"
-          value={goalDays}
-          onChange={(e) => setGoalDays(parseInt(e.target.value))}
-          style={{ padding: 10, width: 80, marginRight: 10 }}
-        />
-        <button onClick={handleAddGoal} style={{ padding: 10 }}>
-          Add Goal
-        </button>
+    <main
+      style={{
+        backgroundColor: "#f0f2f5",
+        minHeight: "100vh",
+        padding: "40px 20px",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      <h1 style={{ textAlign: "center", fontSize: "32px", marginBottom: "30px", color: "#333" }}>
+        Goal Tracker
+      </h1>
+      <GoalForm onAdd={handleAddGoal} />
+      <div style={{ maxWidth: "800px", margin: "40px auto 0 auto" }}>
+        <GoalList goals={goals} setGoals={setGoals} />
       </div>
-      <GoalList goals={goals} setGoals={setGoals} />
-    </div>
+    </main>
   );
 };
 
