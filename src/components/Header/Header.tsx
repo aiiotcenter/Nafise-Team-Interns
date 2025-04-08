@@ -14,7 +14,7 @@ export default function Header() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-2xl font-bold text-black"
         >
-          Comply.
+          ProfDux
         </motion.div>
 
         {/* Navbar */}

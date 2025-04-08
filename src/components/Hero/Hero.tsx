@@ -24,10 +24,10 @@ export default function Hero() {
           className="w-1/2"
         >
           <h1 className="text-5xl font-bold">
-            Cabin In The Woods But In{" "}
-            <span className="text-orange-500 underline">A Good Way!</span>
+          ProfDux: AI-powered learning, answers anytime, any language!{" "}
+            <span className="text-orange-500 underline text-3xl">Are you ready to revolutionize education?</span>
           </h1>
-          <p className="text-gray-500 mt-4">Now you can enjoy camping anywhere...</p>
+          <p className="text-gray-500 mt-4">Ready to revolutionize learning? Start now!</p>
           <button className="bg-black text-white px-6 py-3 rounded-full mt-6">
             Get Started
           </button>
@@ -48,7 +48,7 @@ export default function Hero() {
           className="w-1/2 flex justify-center"
         >
           <img
-            src="/assets/images/img3.jpg"
+            src="/assets/images/phoneprufdux.png"
             alt="Phone"
             className="w-[600px] h-auto object-contain"
           />

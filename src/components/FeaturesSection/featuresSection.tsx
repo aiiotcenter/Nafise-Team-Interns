@@ -29,78 +29,72 @@ export default function FeaturesSection() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden mt-12"
     >
-      {/* Harita */}
+      {/* Görsel */}
       <motion.div
-        initial={{ scale: 1, x: 0, y: 50 }}
-        animate={isFullyVisible ? { scale: 0.6, x: "-30%", y: 0 } : { scale: 1, x: 0, y: 50 }}
+        initial={{ scale: 1, x: 50, y: 250 }}
+        animate={isFullyVisible ? { scale: 0.6, x: "-30%", y: 50 } : { scale: 1, x: 50, y: 250 }}
         transition={{ duration: 1, ease: "easeInOut" }}
         className="absolute w-3/4 h-auto"
       >
         <img
-          src="/assets/icons/international.png"
+          src="/assets/images/pd1.jpg"
           alt="Map"
-          className="w-full h-auto"
-        />
-        {/* Konum İşaretleri */}
-        <motion.img
-          src="/assets/icons/location.png"
-          alt="Location 1"
-          className="w-12 h-12 absolute top-[35%] left-[20%] animate-bounce"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={isFullyVisible ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.3 }}
-        />
-        <motion.img
-          src="/assets/icons/location.png"
-          alt="Location 2"
-          className="w-12 h-12 absolute top-[30%] left-[70%] animate-bounce"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={isFullyVisible ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.5 }}
-        />
-        <motion.img
-          src="/assets/icons/location.png"
-          alt="Location 3"
-          className="w-12 h-12 absolute top-[50%] left-[50%] animate-bounce"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={isFullyVisible ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.7 }}
+          className="w-400 h-auto"
         />
       </motion.div>
 
       {/* Kartlar */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
-        animate={isFullyVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
+        animate={isFullyVisible ? { opacity: 1, x: 0, y:50 } : { opacity: 0, x: 100 }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        className="absolute right-16 bg-white p-8 rounded-xl shadow-2xl space-y-10 w-[500px]"
+        className="absolute right-16 p-8 rounded-xl space-y-10 w-[700px]"
       >
         {/* Kart 1 */}
         <div className="flex items-center space-x-6">
-          <img src="/assets/icons/earth.png" alt="Choices" className="w-14 h-14" />
+          <img src="/assets/icons/chat.png" alt="Choices" className="w-12 h-12" />
           <div>
-            <h3 className="text-xl font-bold">Lot Of Choices</h3>
-            <p className="text-gray-600 text-md">We have 10+ camping destinations.</p>
+            <h3 className="text-xl font-bold">Personalized Assistance</h3>
+            <p className="text-gray-600 text-md">Get answers to your questions in any language, anytime.</p>
           </div>
         </div>
 
         {/* Kart 2 */}
         <div className="flex items-center space-x-6">
-          <img src="/assets/icons/bag.png" alt="Best Guide" className="w-14 h-14" />
+          <img src="/assets/icons/calendar.png" alt="Best Guide" className="w-12 h-12" />
           <div>
-            <h3 className="text-xl font-bold">Best Camp Guide</h3>
-            <p className="text-gray-600 text-md">Our camp guide is ready for you.</p>
+            <h3 className="text-xl font-bold">Smart Attendance Tracking</h3>
+            <p className="text-gray-600 text-md">Seamless monitoring for both online and face-to-face classes.</p>
           </div>
         </div>
 
         {/* Kart 3 */}
         <div className="flex items-center space-x-6">
-          <img src="/assets/icons/booking.png" alt="Easy Booking" className="w-14 h-14" />
+          <img src="/assets/icons/pencil.png" alt="Easy Booking" className="w-12 h-12" />
           <div>
-            <h3 className="text-xl font-bold">Easy Booking</h3>
-            <p className="text-gray-600 text-md">Fast and safe ticket process.</p>
+            <h3 className="text-xl font-bold">Automated Exam & Quiz Generation</h3>
+            <p className="text-gray-600 text-md">Instantly create exams, quizzes, and course content.</p>
           </div>
         </div>
+
+        {/* Kart 4 */}
+        <div className="flex items-center space-x-6">
+          <img src="/assets/icons/statistics.png" alt="Easy Booking" className="w-12 h-12" />
+          <div>
+            <h3 className="text-xl font-bold">Intelligent Grading & Analytics</h3>
+            <p className="text-gray-600 text-md">Real-time insights to help teachers assess student progress.</p>
+          </div>
+        </div>
+
+        {/* Kart 5 */}
+        <div className="flex items-center space-x-6">
+          <img src="/assets/icons/globe.png" alt="Easy Booking" className="w-12 h-12" />
+          <div>
+            <h3 className="text-xl font-bold">Multi-Language Support</h3>
+            <p className="text-gray-600 text-md">Learn and teach without language barriers.</p>
+          </div>
+        </div>
+
       </motion.div>
     </motion.section>
   );
