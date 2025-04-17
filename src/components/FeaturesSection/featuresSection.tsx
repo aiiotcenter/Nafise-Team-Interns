@@ -27,19 +27,19 @@ export default function FeaturesSection() {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden mt-12"
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Görsel */}
       <motion.div
-        initial={{ scale: 1, x: 50, y: 250 }}
-        animate={isFullyVisible ? { scale: 0.6, x: "-30%", y: 50 } : { scale: 1, x: 50, y: 250 }}
+        initial={{ scale: 1, x: 50, y: 115 }}
+        animate={isFullyVisible ? { scale: 0.6, x: "-30%", y: 50 } : { scale: 1, x: 50, y: 115 }}
         transition={{ duration: 1, ease: "easeInOut" }}
         className="absolute w-3/4 h-auto"
       >
         <img
           src="/assets/images/pd1.jpg"
           alt="Map"
-          className="w-400 h-auto"
+          className="w-400 h-full"
         />
       </motion.div>
 
